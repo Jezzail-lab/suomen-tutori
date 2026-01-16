@@ -1,5 +1,28 @@
 import { useState, useMemo } from 'react';
 
+// Messages d'encouragement en finnois
+const SUCCESS_MESSAGES = [
+  { fi: 'Hyvä!', fr: 'Bien !' },
+  { fi: 'Oikein!', fr: 'Correct !' },
+  { fi: 'Mahtavaa!', fr: 'Super !' },
+  { fi: 'Loistavaa!', fr: 'Excellent !' },
+  { fi: 'Hienosti!', fr: 'Bravo !' },
+  { fi: 'Täydellistä!', fr: 'Parfait !' },
+  { fi: 'Erinomaista!', fr: 'Remarquable !' },
+];
+
+const ERROR_MESSAGES = [
+  { fi: 'Ei aivan...', fr: 'Pas tout à fait...' },
+  { fi: 'Yritä uudelleen!', fr: 'Essaie encore !' },
+  { fi: 'Melkein!', fr: 'Presque !' },
+  { fi: 'Ei haittaa!', fr: 'Ce n\'est rien !' },
+];
+
+// Fonction pour obtenir un message aléatoire
+const getRandomMessage = (messages) => {
+  return messages[Math.floor(Math.random() * messages.length)];
+};
+
 // Donnees de gradation consonantique
 const GRADATION_PATTERNS = {
   'pp→p': { strong: 'pp', weak: 'p', examples: ['kauppa→kaupan', 'pappi→papin'] },
@@ -20,6 +43,7 @@ export function Exercise({ section, onComplete, onNext }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [encouragementMessage, setEncouragementMessage] = useState(null);
   // Pour les exercices cloze avec plusieurs trous
   const [clozeAnswers, setClozeAnswers] = useState({});
   // Pour les exercices de construction de phrases
@@ -94,6 +118,9 @@ export function Exercise({ section, onComplete, onNext }) {
 
     setIsCorrect(correct);
     setShowResult(true);
+    setEncouragementMessage(
+      correct ? getRandomMessage(SUCCESS_MESSAGES) : getRandomMessage(ERROR_MESSAGES)
+    );
     onComplete(correct);
   };
 
@@ -105,6 +132,7 @@ export function Exercise({ section, onComplete, onNext }) {
     setAvailableWords([]);
     setShowResult(false);
     setIsCorrect(false);
+    setEncouragementMessage(null);
     onNext();
   };
 
@@ -578,6 +606,16 @@ export function Exercise({ section, onComplete, onNext }) {
 
       {renderExercise()}
 
+      {/* Message d'encouragement */}
+      {showResult && encouragementMessage && (
+        <div className={`encouragement-message ${isCorrect ? 'success' : 'error'}`}>
+          <span className="encouragement-icon">{isCorrect ? '🎯' : '💪'}</span>
+          <span className="encouragement-text">
+            <strong>{encouragementMessage.fi}</strong> — {encouragementMessage.fr}
+          </span>
+        </div>
+      )}
+
       {/* Resultat */}
       {showResult && (
         <div className={`result-box ${isCorrect ? 'correct' : 'incorrect'}`}>
@@ -585,19 +623,19 @@ export function Exercise({ section, onComplete, onNext }) {
             {isCorrect ? (
               <>
                 <span className="result-icon">✓</span>
-                <span>Correct! Hyvä!</span>
+                <span>Bonne réponse !</span>
               </>
             ) : (
               <>
                 <span className="result-icon">✗</span>
-                <span>Pas tout a fait...</span>
+                <span>Pas tout à fait...</span>
               </>
             )}
           </div>
 
           {!isCorrect && (
             <div className="correct-answer">
-              <strong>Reponse correcte:</strong>{' '}
+              <strong>Réponse correcte :</strong>{' '}
               {section.exerciseType === 'cloze' && section.blanks
                 ? section.blanks.map((b, i) => b.answer).join(', ')
                 : section.answer || section.options?.[section.correct]}

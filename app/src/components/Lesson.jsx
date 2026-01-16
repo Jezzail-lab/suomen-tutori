@@ -57,12 +57,32 @@ export function Lesson({ lessonId, onBack, onComplete, recordExercise }) {
         </button>
       </header>
 
-      {/* Barre de progression */}
-      <div className="progress-bar">
-        <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-        <span className="progress-text">
-          {currentSectionIndex + 1} / {lesson.sections.length}
-        </span>
+      {/* Progression en étapes */}
+      <div className="lesson-progress-steps">
+        {lesson.sections.map((section, index) => {
+          const isCompleted = index < currentSectionIndex;
+          const isCurrent = index === currentSectionIndex;
+          const isLocked = index > currentSectionIndex;
+          const isTheory = section.type === 'theory';
+
+          return (
+            <div key={index} className="progress-step">
+              <div
+                className={`step-circle ${isTheory ? 'theory' : 'exercise'} ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''} ${isLocked ? 'locked' : ''}`}
+                title={isTheory ? 'Théorie' : 'Exercice'}
+              >
+                {isCompleted ? (
+                  <span className="step-icon">✓</span>
+                ) : (
+                  <span className="step-icon">{isTheory ? '📖' : '✏️'}</span>
+                )}
+              </div>
+              {index < lesson.sections.length - 1 && (
+                <div className={`step-connector ${isCompleted ? 'completed' : ''}`} />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Panneau vocabulaire */}
@@ -147,11 +167,22 @@ function renderMarkdown(content) {
       continue;
     }
 
-    // Titres
+    // Titres avec détection du type (formel/informel)
     if (line.startsWith('### ')) {
       if (inList) { html += '</ul>'; inList = false; }
       const titleText = formatInlineMarkdown(line.slice(4));
-      html += `<h3 class="md-heading">${titleText}</h3>`;
+
+      // Détecter si c'est un titre formel ou informel
+      let headingClass = 'md-heading';
+      if (titleText.includes('🎩') || titleText.toLowerCase().includes('formel') || titleText.toLowerCase().includes('kirjakieli')) {
+        headingClass = 'md-heading formal-heading';
+      } else if (titleText.includes('😊') || titleText.toLowerCase().includes('informel') || titleText.toLowerCase().includes('puhekieli')) {
+        headingClass = 'md-heading informal-heading';
+      } else if (titleText.includes('🗣️') || titleText.toLowerCase().includes('dialogue')) {
+        headingClass = 'md-heading dialogue-heading';
+      }
+
+      html += `<h3 class="${headingClass}">${titleText}</h3>`;
       continue;
     }
 

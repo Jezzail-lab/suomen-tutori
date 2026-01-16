@@ -1,6 +1,6 @@
 # Etat de la Session - Tuteur Finnois
 
-*Derniere mise a jour: 13 janvier 2026*
+*Derniere mise a jour: 16 janvier 2026*
 
 ---
 
@@ -101,6 +101,49 @@
   - Cascade de feuilles vertes et petales roses en fin de lecon
   - Systeme de particules avec physique (gravite, rotation)
 
+### Ameliorations visuelles des lecons (16 janvier 2026)
+- [x] **Micro-interactions CSS**
+  - Animations d'apparition (fadeInUp, fadeIn, slideInLeft/Right)
+  - Animation de succes (successPulse) et d'erreur (shake)
+  - Effet de pression sur les boutons (buttonPress)
+  - Animations d'icones de resultat (checkmarkPop, crossShake)
+  - Transitions douces sur tous les elements interactifs
+  - Respect de prefers-reduced-motion pour l'accessibilite
+
+- [x] **Progression en etapes visuelles**
+  - Remplacement de la barre simple par des cercles connectes
+  - Icones distinctives : 📖 theorie, ✏️ exercice
+  - Etats visuels : complete (vert + ✓), courant (bleu + scale), verrouille (grise)
+  - Animation au passage d'une etape a l'autre
+
+- [x] **Feedback enrichi avec messages en finnois**
+  - Messages d'encouragement varies :
+    - Succes : "Hyva!", "Mahtavaa!", "Loistavaa!", "Hienosti!", "Taydellistä!", "Erinomaista!"
+    - Erreur : "Ei aivan...", "Yrita uudelleen!", "Melkein!", "Ei haittaa!"
+  - Icones animees (🎯 succes, 💪 encouragement)
+  - Apparition en cascade des options de reponse
+
+- [x] **Theorie plus visuelle**
+  - Titres de section colores selon le type :
+    - 🎩 Formel/kirjakieli → bleu
+    - 😊 Informel/puhekieli → jaune/dore
+    - 🗣️ Dialogue → vert
+  - Tableaux animes a l'apparition
+  - Bordures gauche colorees pour les sections
+
+- [x] **Ecran de fin de lecon ameliore**
+  - Message de felicitations en finnois aleatoire
+  - Statistiques animees en cascade
+  - Design modernise avec gradients
+
+### GitHub et deploiement (13 janvier 2026 apres-midi)
+- [x] Installation GitHub CLI (`brew install gh`)
+- [x] Creation compte GitHub (Jezzail-lab)
+- [x] Initialisation repo git
+- [x] Push vers GitHub
+- [x] Configuration GitHub Pages avec GitHub Actions
+- [x] App deployee sur https://jezzail-lab.github.io/suomen-tutori/
+
 ### Fichiers crees/modifies
 - `app/` - Application React complete
 - `app/src/index.css` - Theme Moomins + styles SRS + grammaire + paysage
@@ -154,6 +197,32 @@ Ou double-cliquer sur `Suomen-Tutori.command`
 
 ---
 
-## Serveur actuel
+## Serveur et deploiement
 
-Le serveur de dev tourne sur **http://localhost:5174/**
+- **Local** : `npm run dev` → http://localhost:5173/
+- **En ligne** : https://jezzail-lab.github.io/suomen-tutori/
+
+---
+
+## GitHub (configure le 13 janvier 2026)
+
+- **Depot** : https://github.com/Jezzail-lab/suomen-tutori
+- **GitHub Pages** : actif, deploiement automatique sur chaque push
+- **Compte** : Jezzail-lab
+
+### Commandes utiles
+```bash
+git add -A && git commit -m "message" && git push
+```
+
+---
+
+## Idees pour la suite
+
+### Synchronisation de progression (a implementer)
+La progression est actuellement stockee en localStorage (locale au navigateur).
+Options discutees :
+- **Export/Import JSON** (simple, ~10 min) : bouton pour telecharger/restaurer la progression
+- **Firebase/Supabase** (complet, ~1-2h) : sync automatique entre appareils avec compte
+
+L'utilisateur souhaite garder ces options en tete pour plus tard.

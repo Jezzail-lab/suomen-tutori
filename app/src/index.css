@@ -568,15 +568,38 @@ body {
   font-size: 1.25rem;
   font-weight: 700;
   margin: var(--spacing-lg) 0 var(--spacing-md);
-  padding-bottom: var(--spacing-sm);
-  border-bottom: 2px solid var(--accent);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+  background: linear-gradient(135deg, var(--bg-warm) 0%, var(--bg) 100%);
+  border-left: 4px solid var(--accent);
 }
 
 .md-heading:first-child {
   margin-top: 0;
+}
+
+/* Titre formel (kirjakieli) */
+.md-heading.formal-heading {
+  background: linear-gradient(135deg, #E8F4FD 0%, #F0F7FF 100%);
+  border-left-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+/* Titre informel (puhekieli) */
+.md-heading.informal-heading {
+  background: linear-gradient(135deg, #FFF9E6 0%, #FFFDF5 100%);
+  border-left-color: var(--accent);
+  color: #8B6914;
+}
+
+/* Titre dialogue */
+.md-heading.dialogue-heading {
+  background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%);
+  border-left-color: var(--success);
+  color: #2D6A4F;
 }
 
 /* Separateur horizontal */
@@ -639,6 +662,7 @@ body {
   margin: var(--spacing-lg) 0;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
+  animation: fadeInUp 0.4s ease;
 }
 
 .md-table {
@@ -4379,4 +4403,661 @@ body {
 .app {
   position: relative;
   z-index: 1;
+}
+
+/* ============================================
+   ANIMATIONS & MICRO-INTERACTIONS
+   ============================================ */
+
+/* Animation d'apparition */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animation de succès */
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Animation d'erreur (shake) */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* Animation de rebond pour les boutons */
+@keyframes buttonPress {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Animation icône de succès */
+@keyframes checkmarkPop {
+  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+  50% { transform: scale(1.2) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Animation icône d'erreur */
+@keyframes crossShake {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.1); }
+  70% { transform: scale(1) rotate(5deg); }
+  85% { transform: rotate(-5deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+/* ============================================
+   PROGRESSION EN ETAPES
+   ============================================ */
+
+.lesson-progress-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md) 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 3px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-light);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.step-circle.theory {
+  border-style: solid;
+}
+
+.step-circle.exercise {
+  border-style: dashed;
+}
+
+.step-circle.completed {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+  animation: successPulse 0.4s ease;
+}
+
+.step-circle.current {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px rgba(91, 143, 168, 0.2);
+}
+
+.step-circle.locked {
+  opacity: 0.5;
+}
+
+.step-icon {
+  font-size: 0.9rem;
+}
+
+.step-connector {
+  width: 24px;
+  height: 3px;
+  background: var(--border);
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.step-connector.completed {
+  background: var(--success);
+}
+
+/* ============================================
+   CONTENU DE LECON ANIME
+   ============================================ */
+
+.lesson-content {
+  animation: fadeInUp 0.4s ease;
+}
+
+.theory-section {
+  animation: fadeIn 0.3s ease;
+}
+
+.theory-section h2 {
+  animation: slideInLeft 0.4s ease;
+}
+
+/* ============================================
+   EXERCICES - ANIMATIONS AMELIOREES
+   ============================================ */
+
+.exercise-container {
+  animation: fadeInUp 0.4s ease;
+}
+
+/* Type badge anime */
+.exercise-type-badge {
+  animation: slideInRight 0.3s ease;
+}
+
+/* Options QCM - apparition en cascade */
+.options-grid .option-btn {
+  animation: fadeInUp 0.3s ease backwards;
+}
+
+.options-grid .option-btn:nth-child(1) { animation-delay: 0.05s; }
+.options-grid .option-btn:nth-child(2) { animation-delay: 0.1s; }
+.options-grid .option-btn:nth-child(3) { animation-delay: 0.15s; }
+.options-grid .option-btn:nth-child(4) { animation-delay: 0.2s; }
+
+/* Boutons avec effet de press */
+.option-btn:active:not(:disabled),
+.submit-btn:active:not(:disabled),
+.next-btn:active,
+.word-chip:active:not(:disabled),
+.dialogue-option:active:not(:disabled) {
+  animation: buttonPress 0.15s ease;
+}
+
+/* Résultat avec animation */
+.result-box {
+  animation: fadeInUp 0.4s ease;
+}
+
+.result-box.correct {
+  animation: fadeInUp 0.4s ease, successPulse 0.5s ease 0.2s;
+}
+
+.result-box.incorrect {
+  animation: fadeInUp 0.4s ease, shake 0.4s ease 0.1s;
+}
+
+/* Icône de résultat animée */
+.result-box.correct .result-icon {
+  display: inline-block;
+  animation: checkmarkPop 0.4s ease forwards;
+  color: var(--success);
+}
+
+.result-box.incorrect .result-icon {
+  display: inline-block;
+  animation: crossShake 0.4s ease forwards;
+  color: var(--error);
+}
+
+/* Word chips animation */
+.word-order-choices .word-chip {
+  animation: fadeInUp 0.3s ease backwards;
+}
+
+.word-order-choices .word-chip:nth-child(1) { animation-delay: 0.02s; }
+.word-order-choices .word-chip:nth-child(2) { animation-delay: 0.04s; }
+.word-order-choices .word-chip:nth-child(3) { animation-delay: 0.06s; }
+.word-order-choices .word-chip:nth-child(4) { animation-delay: 0.08s; }
+.word-order-choices .word-chip:nth-child(5) { animation-delay: 0.1s; }
+.word-order-choices .word-chip:nth-child(6) { animation-delay: 0.12s; }
+.word-order-choices .word-chip:nth-child(7) { animation-delay: 0.14s; }
+.word-order-choices .word-chip:nth-child(8) { animation-delay: 0.16s; }
+
+/* Dialogue animation */
+.dialogue-line {
+  animation: fadeInUp 0.4s ease backwards;
+}
+
+.dialogue-line:nth-child(1) { animation-delay: 0.1s; }
+.dialogue-line:nth-child(2) { animation-delay: 0.2s; }
+.dialogue-line:nth-child(3) { animation-delay: 0.3s; }
+.dialogue-line:nth-child(4) { animation-delay: 0.4s; }
+
+.dialogue-options .dialogue-option {
+  animation: fadeInUp 0.3s ease backwards;
+}
+
+.dialogue-options .dialogue-option:nth-child(1) { animation-delay: 0.3s; }
+.dialogue-options .dialogue-option:nth-child(2) { animation-delay: 0.4s; }
+.dialogue-options .dialogue-option:nth-child(3) { animation-delay: 0.5s; }
+
+/* ============================================
+   MESSAGES D'ENCOURAGEMENT
+   ============================================ */
+
+.encouragement-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-md);
+  animation: fadeInUp 0.4s ease;
+}
+
+.encouragement-message.success {
+  background: linear-gradient(135deg, var(--success-bg) 0%, #D4EDDA 100%);
+  color: #2D6A4F;
+  border: 2px solid var(--success);
+}
+
+.encouragement-message.error {
+  background: linear-gradient(135deg, var(--error-bg) 0%, #FADBD8 100%);
+  color: #943126;
+  border: 2px solid var(--error);
+}
+
+.encouragement-icon {
+  font-size: 1.4rem;
+}
+
+/* ============================================
+   THEORIE - STYLE AMELIORE
+   ============================================ */
+
+/* Cartes pour les registres formel/informel */
+.register-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+}
+
+.register-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  border: 2px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.register-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.register-card.formal {
+  border-top: 4px solid var(--primary);
+}
+
+.register-card.informal {
+  border-top: 4px solid var(--accent);
+}
+
+.register-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border);
+}
+
+.register-icon {
+  font-size: 1.5rem;
+}
+
+.register-title {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.register-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+/* Vocab cards dans la théorie */
+.vocab-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
+}
+
+.vocab-card {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-warm) 100%);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.vocab-card:hover {
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.vocab-card-fi {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.vocab-card-fr {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* Dialogue illustré dans la théorie */
+.theory-dialogue {
+  background: var(--bg-warm);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+}
+
+.theory-dialogue-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.theory-dialogue-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.theory-dialogue-line {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+}
+
+.theory-dialogue-line:not(:last-child) {
+  border-bottom: 1px dashed var(--border);
+}
+
+.dialogue-line-fi {
+  flex: 1;
+  font-weight: 500;
+}
+
+.dialogue-line-fr {
+  flex: 1;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* ============================================
+   ECRAN DE FIN DE LECON AMELIORE
+   ============================================ */
+
+.lesson-summary {
+  text-align: center;
+  padding: var(--spacing-xl);
+  animation: fadeInUp 0.5s ease;
+}
+
+.summary-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.summary-title {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: var(--spacing-sm);
+  animation: slideInLeft 0.5s ease;
+}
+
+.summary-subtitle {
+  color: var(--text-light);
+  font-size: 1.1rem;
+}
+
+.summary-message {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--spacing-xl);
+  animation: fadeInUp 0.5s ease 0.2s backwards;
+}
+
+.summary-message.excellent {
+  background: linear-gradient(135deg, var(--success-bg) 0%, #D4EDDA 100%);
+  color: #2D6A4F;
+  border: 2px solid var(--success);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.summary-message-fi {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.summary-message-fr {
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.lesson-title-summary {
+  color: var(--primary);
+  font-size: 1.4rem;
+  margin-bottom: var(--spacing-xl);
+  animation: fadeInUp 0.5s ease 0.3s backwards;
+}
+
+.summary-message.good {
+  background: linear-gradient(135deg, #FFF9E6 0%, #FEF3CD 100%);
+  color: #856404;
+  border: 2px solid var(--accent-yellow);
+}
+
+.summary-message.needs-work {
+  background: linear-gradient(135deg, var(--bg-warm) 0%, #F5EDE0 100%);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+/* Stats de la leçon */
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.summary-stat {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  animation: fadeInUp 0.4s ease backwards;
+}
+
+.summary-stat:nth-child(1) { animation-delay: 0.1s; }
+.summary-stat:nth-child(2) { animation-delay: 0.2s; }
+.summary-stat:nth-child(3) { animation-delay: 0.3s; }
+
+.summary-stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.summary-stat-label {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* Vocabulaire appris */
+.summary-vocabulary {
+  margin-bottom: var(--spacing-xl);
+  animation: fadeInUp 0.5s ease 0.4s backwards;
+}
+
+.summary-vocabulary h3 {
+  color: var(--primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.summary-vocab-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+.summary-vocab-item {
+  background: var(--bg-warm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-round);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 0.9rem;
+}
+
+.summary-vocab-fi {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.summary-vocab-fr {
+  color: var(--text-light);
+}
+
+/* Actions de fin */
+.summary-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  animation: fadeInUp 0.5s ease 0.5s backwards;
+}
+
+.summary-btn {
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-round);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.summary-btn.primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+}
+
+.summary-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.summary-btn.secondary {
+  background: var(--bg-card);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.summary-btn.secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ============================================
+   INPUT FOCUS AMELIORE
+   ============================================ */
+
+.blank-input:focus,
+.cloze-input:focus,
+.gradation-input:focus,
+.translation-input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(91, 143, 168, 0.15);
+}
+
+/* ============================================
+   TRANSITIONS GLOBALES
+   ============================================ */
+
+/* Transition douce pour tous les éléments interactifs */
+button,
+input,
+select,
+textarea,
+.lesson-card,
+.vocab-card,
+.register-card {
+  transition: all 0.2s ease;
+}
+
+/* Réduire les animations si préférence utilisateur */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

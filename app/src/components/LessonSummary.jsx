@@ -4,6 +4,19 @@ import { getVerbConjugation, isVerb } from '../data/verbConjugations';
 import { useSounds } from '../hooks/useSounds';
 import { useFeedback } from './FeedbackEffects';
 
+// Messages de félicitations en finnois
+const COMPLETION_MESSAGES = [
+  { fi: 'Hienoa työtä!', fr: 'Excellent travail !' },
+  { fi: 'Olet oppinut paljon!', fr: 'Tu as beaucoup appris !' },
+  { fi: 'Hyvin tehty!', fr: 'Bien joué !' },
+  { fi: 'Loistavaa edistystä!', fr: 'Excellente progression !' },
+  { fi: 'Mahtavaa!', fr: 'Super !' },
+];
+
+const getRandomCompletionMessage = () => {
+  return COMPLETION_MESSAGES[Math.floor(Math.random() * COMPLETION_MESSAGES.length)];
+};
+
 export function LessonSummary({ lessonId, onClose, onBack }) {
   const lesson = useMemo(() => getLessonById(lessonId), [lessonId]);
   const { playLessonComplete } = useSounds();
@@ -69,27 +82,37 @@ export function LessonSummary({ lessonId, onClose, onBack }) {
   // Compter les exercices
   const exerciseCount = lesson.sections.filter(s => s.type === 'exercise').length;
 
+  // Message de félicitations aléatoire (mémorisé pour éviter les changements)
+  const completionMessage = useMemo(() => getRandomCompletionMessage(), []);
+
   return (
     <div className="lesson-summary">
       <header className="summary-header">
-        <div className="summary-badge">Lecon terminee!</div>
-        <h1>{lesson.title}</h1>
+        <h1 className="summary-title">Leçon terminée !</h1>
         <p className="summary-subtitle">{lesson.level} - {lesson.module}</p>
       </header>
+
+      {/* Message de félicitations en finnois */}
+      <div className="summary-message excellent">
+        <span className="summary-message-fi">{completionMessage.fi}</span>
+        <span className="summary-message-fr">{completionMessage.fr}</span>
+      </div>
+
+      <h2 className="lesson-title-summary">{lesson.title}</h2>
 
       {/* Statistiques */}
       <div className="summary-stats">
         <div className="summary-stat">
-          <span className="stat-number">{keyPoints.length}</span>
-          <span className="stat-label">Sections</span>
+          <span className="summary-stat-value">{keyPoints.length}</span>
+          <span className="summary-stat-label">Sections</span>
         </div>
         <div className="summary-stat">
-          <span className="stat-number">{exerciseCount}</span>
-          <span className="stat-label">Exercices</span>
+          <span className="summary-stat-value">{exerciseCount}</span>
+          <span className="summary-stat-label">Exercices</span>
         </div>
         <div className="summary-stat">
-          <span className="stat-number">{lesson.vocabulary?.length || 0}</span>
-          <span className="stat-label">Mots</span>
+          <span className="summary-stat-value">{lesson.vocabulary?.length || 0}</span>
+          <span className="summary-stat-label">Mots appris</span>
         </div>
       </div>
 
